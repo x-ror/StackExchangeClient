@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <link rel="stylesheet" href="./src/css/bootstrap.css">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
+    <div class="container">
+      <h1 class="text-center">PersetronAA!</h1>
+    </div>
   </body>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script>require('./renderer.js');</script>
+  <script src="./src/javascript/jquery.min.js"></script>
+  <script src="./src/javascript/popper.min.js"></script>
+  <script src="./src/javascript/bootstrap.min.js"></script>
+  <script>if (window.module) module = window.module;</script>
 </html>
