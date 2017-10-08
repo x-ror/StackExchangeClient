@@ -1,7 +1,7 @@
 // const electron = require('electron')
 const {BrowserWindow} = require('electron').remote
 
-exports.auth = () => {
+exports.authentication = (scb) => {
   let authWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -48,7 +48,7 @@ exports.auth = () => {
     token = token.split('=')[1];
     expires = expires.split('=')[1];
     
-    // scb(token, expires);
+    scb({token: token, expires: expires});
 
     unloadAndCloseAuthWindow();
   });

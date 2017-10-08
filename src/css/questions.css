@@ -1,0 +1,20 @@
+.question{
+  display: block;
+  padding: .5rem;
+  border-top: 1px solid #c0d2c4;
+}
+.question a{
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+}
+.question a:hover{
+  color: #b1cde8;
+}
+.question a:visited{
+  color: black;
+}
+.tags .tag {
+  padding: .3rem;
+  display: inline-block;
+}

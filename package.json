@@ -15,7 +15,7 @@
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": ""
   },
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
