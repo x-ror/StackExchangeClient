@@ -1,4 +1,5 @@
 const servicesApi = require('./stackexchange-service');
+const helper = require('../helpers/question_herper.js');
 
 exports.getQuestions = (url,qParams) => {
   servicesApi.fetch(url,qParams).then(req =>{
@@ -10,16 +11,14 @@ exports.getQuestions = (url,qParams) => {
             <h4><a href="#">${item.title}</a></h4>
           </div>
           <div class="tags">
-            ${tags(item.tags)}
+            ${helper.tags(item.tags)}
           </div>
+          <div>Created ${helper.timeToWords(item.creation_date*1000)}!</div>
         </div>`);
       });
       document.querySelector('.container').insertAdjacentHTML('beforeend',stack.join(''));
     }
   });  
-  const tags = (tags) => {
-    return tags.map( tag => {
-      return `<div class="tag"><a href="#">${tag}</a></div>`;
-    }).join('');
-  };
+  
 }
+// 
