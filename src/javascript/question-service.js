@@ -13,7 +13,7 @@ exports.getQuestions = (url,qParams) => {
           <div class="tags">
             ${helper.tags(item.tags)}
           </div>
-          <div>Created ${helper.timeToWords(item.creation_date*1000)}!</div>
+          <div>Created ${helper.timeToWords(item.creation_date)}!</div>
         </div>`);
       });
       document.querySelector('.container').insertAdjacentHTML('beforeend',stack.join(''));

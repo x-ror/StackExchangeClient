@@ -34,7 +34,7 @@ exports.timeToWords = (time) => {
     [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
     [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
   ];
-  let seconds = (+new Date() - time) / 1000,
+  let seconds = (+new Date() - time*1000) / 1000,
       token = 'ago',
       list_choice = 1;
 
