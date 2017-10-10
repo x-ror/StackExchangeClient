@@ -5,7 +5,6 @@ exports.fetch = (url,parameters,options) => {
     parameters.key =  'uzt*oDqUgZZsITxGHfU7XA((';
   }
   return fetch(exports.buildUri(url,parameters),options).then(response => response.json());
-  // buildUrl(url,parameters);
 }
 
 exports.buildUri = (url,parameters) => {
@@ -23,5 +22,6 @@ exports.logOut = (params) => {
   logoutPromise.then(() => {
     const session = win.webContents.session;
     session.cookies.remove('https://stackexchange.com', 'acct', ()=>{});
+    win.reload();
   });
 }
