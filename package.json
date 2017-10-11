@@ -1,6 +1,6 @@
 {
   "name": "stackexchange",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "StackExchange client",
   "main": "main.js",
   "scripts": {
@@ -15,10 +15,11 @@
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
-    "electron": ""
+    "electron": "1.7.8"
   },
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "tsc": "^1.20150623.0"
   }
 }
