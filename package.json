@@ -1,10 +1,12 @@
 {
   "name": "stackexchange",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "StackExchange client",
   "main": "main.js",
+  "author": "Andrey Tymchenko",
+  "license": "MIT",
   "scripts": {
-    "start": "electron ."
+    "start": "electron -r babel-register ."
   },
   "repository": "https://github.com/PerceptronAA/StackExchangeClient",
   "keywords": [
@@ -12,14 +14,14 @@
     "StackExchange",
     "Client"
   ],
-  "author": "GitHub",
-  "license": "MIT",
   "devDependencies": {
-    "electron": "1.7.8"
+    "electron": "^1.7.9"
   },
   "dependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
     "bootstrap": "4.0.0-alpha.6",
-    "jquery": "^3.2.1",
-    "tsc": "^1.20150623.0"
+    "jquery": "^3.2.1"
   }
 }

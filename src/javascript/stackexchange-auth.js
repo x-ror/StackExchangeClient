@@ -39,7 +39,7 @@ exports.authentication = (scb) => {
     const hasToken = newUrl.indexOf('access_token') >= 0;
 
     if (isError || !hasToken) {
-      return;
+      return false;
     }
 
     // Success authentication
@@ -51,6 +51,7 @@ exports.authentication = (scb) => {
     scb({token: token, expires: expires});
 
     unloadAndCloseAuthWindow();
+    return true;
   });
 
   // This event can be unregistered by `did-get-redirect-request` handler

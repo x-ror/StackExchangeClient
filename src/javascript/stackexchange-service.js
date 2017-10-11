@@ -17,6 +17,7 @@ exports.buildUri = (url,parameters) => {
   }
   return url;
 }
+
 exports.logOut = (params) => {
   const logoutPromise = fetch(exports.buildUri(`/apps/${params.access_token}/de-authenticate`));
   logoutPromise.then(() => {

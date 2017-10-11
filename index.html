@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="./src/css/bootstrap.css">
-    <link rel="stylesheet" href="./src/css/questions.css">
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <link rel="stylesheet" href="./src/css/bootstrap.css">
+  <link rel="stylesheet" href="./src/css/questions.css">
+</head>
+<body>
+  <div id="sidebar-wrapper col-md-3">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a href="#">Start Bootstrap</a>
+      </li>
+      <li class="sidebar-brand">
+        <a href="#">Start Bootstrap</a>
+      </li>
+      <li class="sidebar-brand">
+        <a href="#">Start Bootstrap</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9">
     <div class="container">
-      <button id="login-button" type="button" class="btn btn-success btn-lg">Log In</button>
+
     </div>
-  </body>
-  <script>require('./renderer.js');</script>
+  </div>
+</body>
+<script>
+  require('babel-register');
+  require('./renderer.js');
+</script>
+
 </html>

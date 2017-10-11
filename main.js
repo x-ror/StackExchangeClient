@@ -8,35 +8,35 @@ const url = require('url')
 let mainWindow
 let windowOptions = {
   width: 1080,
-  minWidth: 680,
   height: 840,
-  // frame: false,
+  minWidth: 680,
   title: 'Stack Overflow'
+  // frame: false,
 };
-function createWindow () {
-  mainWindow = new BrowserWindow(windowOptions)
+const createWindow = () => {
+  mainWindow = new BrowserWindow(windowOptions);
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
-  }))
-  mainWindow.webContents.openDevTools()
+  }));
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
-    mainWindow = null
+    mainWindow = null;
   });
-}
+};
 
-app.on('ready', createWindow)
-app.on('window-all-closed', function () {
+app.on('ready', createWindow);
+app.on('window-all-closed',  () => {
   if (process.platform !== 'darwin') {
     app.quit();
-  }
+  };
 });
 
-app.on('activate', function () {
+app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
-  }
+  };
 });
