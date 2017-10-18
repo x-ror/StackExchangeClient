@@ -15,7 +15,6 @@ $(() => {
     document.querySelector(".container").insertAdjacentHTML('beforeend', '<button type="button" id="logOut" class="btn btn-lg">log uut</button>');
     document.querySelector('#logOut').addEventListener('click', () => {
       servicesApi.logOut({ access_token: localStorage.token });
-
     });
     questionServices.getQuestions('/questions', {
       pagesize: 20,
