@@ -14,8 +14,8 @@ const SideBar = class Sidebarcontroller{
     return profile;
   };
   async render(){
+    console.log(db.get("profile"))
     const profile = await this.getMe();
-    console.log(profile);
     return document.querySelector("#sidebar").insertAdjacentHTML('beforeend',`<div class = "sidebar">
       <figure>
         <img src="${profile.profile_image}" alt="" sizes="" srcset="">
