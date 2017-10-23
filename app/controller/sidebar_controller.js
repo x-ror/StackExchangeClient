@@ -1,6 +1,6 @@
 import servicesApi from '../services/stackexchange-service';
 import db from '../data/dataStore';
-
+import Badge from '../services/badgeServices';
 const SideBar = class Sidebarcontroller{
   constructor(){
      this.profile;
@@ -16,10 +16,17 @@ const SideBar = class Sidebarcontroller{
   async render(){
     console.log(db.get("profile"))
     const profile = await this.getMe();
+    const badge = new Badge(profile);
     return document.querySelector("#sidebar").insertAdjacentHTML('beforeend',`<div class = "sidebar">
-      <figure>
-        <img src="${profile.profile_image}" alt="" sizes="" srcset="">
-      </figure>
+    <h5>${profile.display_name}</h5> 
+      <div class="badges">
+        ${badge.to_div()}
+      </div>
+      <a href="${profile.link}">
+        <figure>
+          <img src="${profile.profile_image}" alt="" sizes="" srcset="">
+        </figure>
+      </a>
     </div>`);
   }
 }

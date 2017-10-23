@@ -46,11 +46,11 @@ authWindow.on('closed', () => {
 });
 
 class Auth{
-  static login(){
-    loadAuthUrl();
+  static async login(){
+    await loadAuthUrl();
   };
-  static logout(){
+  static async logout(){
     return null;
-  }  
+  }
 }
 export default Auth;
