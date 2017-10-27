@@ -24,6 +24,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
+    localStorage= null;
     mainWindow = null;
   });
 };
@@ -31,6 +32,7 @@ const createWindow = () => {
 app.on('ready', createWindow);
 app.on('window-all-closed',  () => {
   if (process.platform !== 'darwin') {
+    localStorage = null;
     app.quit();
   };
 });

@@ -11,12 +11,6 @@ import questionServices from './src/javascript/question-service';
 
 $(() => {
   Auth.login();
-  if(Auth.islogin)
-    const bar = new SideBar().render();
-  // questionServices.getQuestions('/questions', {
-  //   pagesize: 20,
-  //   order: 'desc',
-  //   sort: 'activity',
-  //   tagged: "ruby-on-rails"
-  // });
+  const bar = new SideBar();
+  bar.render();
 });

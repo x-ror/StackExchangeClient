@@ -15,13 +15,11 @@ const Badge = class Badges {
     this.badges.bronze;
   }
   to_div(){
-    for (let [k, v] of Object.entries(this.badges)) {
-      console.log(v);
-      // localStorage.setItem(k, JSON.stringify(v));
+    let _ = []
+    for (let [k, badge] of Object.entries(this.badges)) {
+      _.push(`<span class="${k}">${k}:${badge} </span>`);
     }
-    // return this.badges.each( badge => {
-    //   return `<div class="${badge}">${badge}<div>`;
-    // }).join('');
+    return _.join('');
   }
 }; 
 export default Badge;
