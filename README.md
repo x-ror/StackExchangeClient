@@ -1,1 +1,1 @@
-"# StackApp" 
+StackExchange client app build with electron

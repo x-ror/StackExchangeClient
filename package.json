@@ -1,0 +1,21 @@
+{
+  "name": "stackExchange",
+  "version": "1.0.0",
+  "description": "StackExchange client app build with electron",
+  "repository": "https://bitbucket.org/hrushch/stackapp",
+  "author": "Hrushch",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "private": false,
+  "keywords": [
+    "Electron",
+    "StackExchange",
+    "Client"
+  ],
+  "devDependencies": {
+    "electron": "1.8.2-beta.1"
+  }
+}
