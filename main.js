@@ -1,6 +1,12 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const user = require('./app/controller/UserController');
+let current_user = {};
+/*
+* @set global RequestServices;
+* */
+global.RequestServices = require('./app/services/RequestServices').request();
 
 const path = require('path');
 const url = require('url');
@@ -26,6 +32,16 @@ const createWindow = () => {
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
+    mainWindow.webContents.on('dom-ready', () => {
+        user.login((token, expires) => {
+            mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires});
+        });
+    });
+    // ipcMain.on('stackexchange:show-login-form', () => {
+    //     user.login((token, expires) => {
+    //         mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires });
+    //     });
+    // });
 };
 
 app.on('ready', createWindow);
