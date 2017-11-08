@@ -16,5 +16,3 @@ ipc.on('stackexchange:login', (event, data) => {
     Object.freeze(localStorage.token);
     win.webContents.send('sidebar:initialize');
 });
-
-
