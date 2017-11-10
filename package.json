@@ -17,5 +17,10 @@
   ],
   "devDependencies": {
     "electron": "1.8.2-beta.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.6"
   }
 }

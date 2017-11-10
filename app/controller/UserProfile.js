@@ -1,27 +1,22 @@
-const Badges = require('./Badges')._();
-const Privileges = require('./Privileges')._();
-// const electron = require('electron');
-// const remote = electron.remote;
-const RequestServices = require('../services/RequestServices').request();
-const user1 = require('./UserController');
-exports._ = () => class UserProfile{
-    constructor(){}
-    async render(){
-        const user = await getMe();
-        document.querySelector(".container").insertAdjacentHTML('beforeend',
-            '<button type="button" id="logOut" class="btn btn-lg">Log Out</button>');
-        document.querySelector('#logOut').addEventListener('click', () => {
-            user1.logout({ access_token: localStorage.token });
 
-        });
-        this.badges = new Badges(user);
-        this.privileges = new Privileges(user);
+const RequestServices = require('../services/RequestServices').request();
+const Privileges = require('./Privileges').init();
+const Badges = require('./Badges')._();
+
+exports._ = () => class UserProfile{
+    constructor(){
+        this.profile = {};
+    }
+    async render(){
+        this.profile    = await getMe();
+        this.badges     = new Badges(this.profile);
+        this.reputation = new Privileges(this.profile);
     }
     async getBadges(){
-        return await new Badges(user);
+        return await new Badges(this.profile);
     }
     async getPrivileges() {
-        return await new Privileges(user);
+        return await new Privileges(this.profile);
     }
 };
 

@@ -1,14 +1,14 @@
 exports._ = () => class Badges{
     constructor(user){
-        this.badges = user.badge_counts;
+        this.badges = user['badge_counts'];
     }
-    async gold(){
-        return await this.badges.gold;
+    get gold(){
+        return this.badges.gold;
     }
-    async silver(){
-        return await this.badges.silver;
+    get silver(){
+        return this.badges.silver;
     }
-    async bronze(){
-        return await this.badges.bronze;
+    get bronze(){
+        return this.badges.bronze;
     }
 };
