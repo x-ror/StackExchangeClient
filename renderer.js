@@ -1,6 +1,6 @@
 "use strict";
 window.$ = window.jQuery = require('jquery');
-global.Tether = require('tether');
+global.Popper = require('popper.js');
 global.Bootstrap = require('bootstrap');
 
 const electron = require('electron');
@@ -46,16 +46,6 @@ const renderHeader = (userProfile) => {
           </li>
           <li class="nav-item">
             <a class="nav-link" rel="nofollow">Tags</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown link
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
           </li>
         </ul>
       </div>
