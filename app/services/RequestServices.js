@@ -10,18 +10,13 @@ exports.request = () => class RequestServices{
         }
         return url;
     }
-    static fetch(url,parameters,options){
+
+    static async fetch(url, parameters, options) {
         if(parameters && typeof parameters === 'object'){
             parameters.site = 'ru.stackoverflow.com';
             parameters.key =  'uzt*oDqUgZZsITxGHfU7XA((';
         }
-        return fetch(RequestServices.buildUrl(url,parameters),options).then(response => response.json());
-    }
-    static fetch1(url,parameters,options){
-        if(parameters && typeof parameters === 'object'){
-            parameters.site = 'ru.stackoverflow.com';
-            parameters.key =  'uzt*oDqUgZZsITxGHfU7XA((';
-        }
-        return fetch(RequestServices.buildUrl(url,parameters),options).then(response => response.json());
+        return await fetch(RequestServices.buildUrl(url, parameters), options)
+            .then(response => response.json());
     }
 };
