@@ -11,4 +11,11 @@ exports._ = () => class Badges{
     get bronze(){
         return this.badges.bronze;
     }
+    spanMap(){
+        let stack = [];
+        for (let key in this.badges)
+            if(this.badges.hasOwnProperty(key))
+                this.badges[key] > 0 ? stack.push(`<span class="badge badge-${key}">●${this.badges[key]}</span>`): '';
+        return stack.join('');
+    }
 };
