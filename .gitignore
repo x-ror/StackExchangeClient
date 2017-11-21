@@ -5,3 +5,4 @@ yarn.lock
 .vscode
 %HOMEDRIVE%%HOMEPATH%/
 package-lock.json
+out/

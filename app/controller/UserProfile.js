@@ -1,47 +1,58 @@
+/**
+ * @requires RequestServices
+ * @requires Privileges
+ * @requires Badges
+ * @requires uniqid
+ */
+const RequestServices = require('../services/RequestBuilder')
+const Privileges = require('./Privileges')
+const Badges = require('./Badges')
+const uniqid = require('uniqid')
 
-const RequestServices = require('../services/RequestServices').request();
-const Privileges = require('./Privileges').init();
-const Badges = require('./Badges')._();
+/**
+ * @class UserProfile
+ * @classdesc UserProfile - клас для роботи з данними користувача
+ */
+class UserProfile {
+  /**
+   * @constructor
+   * @description створює об'єкт класу UserProfile
+   */
+  constructor () {
+    this.profile = {}
+  }
 
-let id = 0;
+  /**
+   * @description Досягнення користувача
+   * @return {Badges}
+   */
+  get MyBadges () {
+    return this.Badges.MyBadges()
+  }
 
-exports._ = () => class UserProfile{
-    constructor(){
-        this.profile = {};
-    }
-    async render(){
-        this.id = id+=1;
-        this.profile    = await getMe();
-        this.badges     = new Badges(this.profile);
-        this.reputation = new Privileges(this.profile);
-    }
-    async getBadges(){
-        return await new Badges(this.profile);
-    }
-    async getPrivileges() {
-        return await new Privileges(this.profile);
-    }
-    showModal(){
-        return `
-        <div class="modal fade" id="userProfileInformation${this.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">${this.profile['display_name']}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    }
-};
+  /**
+   * @description Репутація користувача
+   * @return {Badges}
+   */
+  get MyPrivileges () {
+    return this.Privileges.myPrivileges()
+  }
+
+  /**
+   * @description Асинхронний метод ініціалізації користувача
+   */
+  async render () {
+    this.id = uniqid()
+    this.profile = await getMe()
+    this.Badges = new Badges(this.profile)
+    this.Privileges = new Privileges(this.profile)
+  }
+}
 
 const getMe = async () => {
-    return await RequestServices.fetch('/me', { access_token: localStorage.token }).then( response => {
-        return response.items[0];
-    });
-};
+  return await RequestServices.fetch('/me', {access_token: localStorage.token}).then(response => {
+    return response.items[0]
+  })
+}
+
+module.exports = UserProfile

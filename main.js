@@ -1,58 +1,58 @@
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const user = require('./app/controller/UserController');
-let current_user = {};
+const electron = require('electron')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
+const user = require('./app/controller/UserController')
+let current_user = {}
 /*
-* @set global RequestServices;
+* @set global RequestBuilder;
 * */
-global.RequestServices = require('./app/services/RequestServices').request();
+const RequestServices = require('./app/services/RequestBuilder')
 
-const path = require('path');
-const url = require('url');
+const path = require('path')
+const url = require('url')
 
-let mainWindow;
+let mainWindow
 let windowOptions = {
-    width: 1080,
-    height: 840,
-    minWidth: 680,
-    title: 'Stack Overflow'
-    // frame: false,
-};
+  width: 1080,
+  height: 840,
+  minWidth: 680,
+  title: 'Stack Overflow'
+  // frame: false,
+}
 const createWindow = () => {
-    mainWindow = new BrowserWindow(windowOptions);
+  mainWindow = new BrowserWindow(windowOptions)
 
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-    mainWindow.webContents.openDevTools();
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  mainWindow.webContents.openDevTools()
 
-    mainWindow.on('closed', function () {
-        mainWindow = null;
-    });
-    mainWindow.webContents.on('dom-ready', () => {
-        user.login((token, expires) => {
-            mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires});
-        });
-    });
-    // ipcMain.on('stackexchange:show-login-form', () => {
-    //     user.login((token, expires) => {
-    //         mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires });
-    //     });
-    // });
-};
+  mainWindow.on('closed', function () {
+    mainWindow = null
+  })
+  mainWindow.webContents.on('dom-ready', () => {
+    user.login((token, expires) => {
+      mainWindow.webContents.send('stackexchange:login', {token: token, expires: expires})
+    })
+  })
+  // ipcMain.on('stackexchange:show-login-form', () => {
+  //     user.login((token, expires) => {
+  //         mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires });
+  //     });
+  // });
+}
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
 
 app.on('activate', () => {
-    if (mainWindow === null) {
-        createWindow();
-    }
-});
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
