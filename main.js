@@ -3,9 +3,9 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const user = require('./app/controller/UserController')
 let current_user = {}
-/*
-* @set global RequestBuilder;
-* */
+/**
+ * @requires RequestBuilder;
+ * */
 const RequestServices = require('./app/services/RequestBuilder')
 
 const path = require('path')
