@@ -19,6 +19,7 @@ let windowOptions = {
   title: 'Stack Overflow'
   // frame: false,
 }
+
 const createWindow = () => {
   mainWindow = new BrowserWindow(windowOptions)
 
@@ -28,20 +29,14 @@ const createWindow = () => {
     slashes: true
   }))
   mainWindow.webContents.openDevTools()
-
   mainWindow.on('closed', function () {
     mainWindow = null
   })
   mainWindow.webContents.on('dom-ready', () => {
-    user.login((token, expires) => {
+    const fn = user.login((token, expires) => {
       mainWindow.webContents.send('stackexchange:login', {token: token, expires: expires})
     })
   })
-  // ipcMain.on('stackexchange:show-login-form', () => {
-  //     user.login((token, expires) => {
-  //         mainWindow.webContents.send('stackexchange:login', { token: token, expires: expires });
-  //     });
-  // });
 }
 
 app.on('ready', createWindow)

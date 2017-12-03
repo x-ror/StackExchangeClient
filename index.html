@@ -7,59 +7,89 @@
 	<!-- CSS Global Compulsory -->
 	<link rel="stylesheet" href="./app/assets/vendor/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="./app/assets/vendor/bootstrap/offcanvas.css">
-	<link rel="stylesheet" href="./app/assets/vendor/animate.css">
-	<link rel="stylesheet" href="./app/assets/vendor/icon-awesome/css/font-awesome.css">
-	<link rel="stylesheet" href="./app/assets/vendor/icon-hs/style.css">
-
 	<!-- CSS Global Icons -->
+	<link rel="stylesheet" href="./app/assets/vendor/icon-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="./app/assets/vendor/icon-line/css/simple-line-icons.css">
+	<link rel="stylesheet" href="./app/assets/vendor/icon-hs/style.css">
 	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsparallaxer.css">
 	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
 	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+	<link rel="stylesheet" href="./app/assets/vendor/animate.css">
+	<link rel="stylesheet" href="./app/assets/vendor/hamburgers/hamburgers.min.css">
 	<link rel="stylesheet" href="./app/assets/vendor/hs-megamenu/src/hs.megamenu.css">
+	<link rel="stylesheet" href="./app/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="./app/assets/vendor/slick-carousel/slick/slick.css">
+	<link rel="stylesheet" href="./app/assets/vendor/fancybox/jquery.fancybox.css">
 
 	<!-- CSS Unify -->
 	<link rel="stylesheet" href="./app/assets/css/unify-core.css">
 	<link rel="stylesheet" href="./app/assets/css/unify-components.css">
 	<link rel="stylesheet" href="./app/assets/css/unify-globals.css">
+	<link rel="stylesheet" href="./app/assets/css/custom.css">
 
 	<title>StackOverflow</title>
 </head>
 <body class="u-body--header-side-static-left">
-<main>
-	<div class="container">
-
+<div class="body">
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
 	</div>
-</main>
+</div>
 </body>
 
 
 <script>
+
   window.$ = window.jQuery = require('jquery')
+
+  $(document).ready(function () {
+
+    // setTimeout(function () {
+    //   $('.body').addClass('loaded')
+    //   $('h1').css('color', '#222222')
+    // }, 3000)
+  })
   global.Popper = require('popper.js')
-	require('hamburgers');
-	require('imagesloaded');
-	require('slick-carousel');
-	require('jquery.fancybox');
+
+  const jQueryBridget = require('jquery-bridget')
+  const Masonry = require('masonry-layout')
+
+  // make Masonry a jQuery plugin
+  jQueryBridget('masonry', Masonry, $)
+  require('malihu-custom-scrollbar-plugin')($)
+
 </script>
 
 <script src="./app/assets/vendor/bootstrap/bootstrap.min.js"></script>
 <script src="./app/assets/vendor/bootstrap/offcanvas.js"></script>
 
+<script src="./app/assets/vendor/jquery-migrate/jquery-migrate-3.0.min.js"></script>
+<script src="./app/assets/vendor/jquery.easing/js/jquery.easing.min.js"></script>
+
 <!-- JS Implementing Plugins -->
+<script src="./app/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
 <script src="./app/assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
 <script src="./app/assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
 <script src="./app/assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
-<script src="./app/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+<script src="./app/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="./app/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+<script src="./app/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
 <!-- JS Unify -->
 <script src="./app/assets/js/hs.core.js"></script>
-<script src="./app/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+
 <script src="./app/assets/js/components/hs.header-side.js"></script>
 <script src="./app/assets/js/helpers/hs.hamburgers.js"></script>
+
 <script src="./app/assets/js/components/hs.dropdown.js"></script>
 <script src="./app/assets/js/components/hs.scrollbar.js"></script>
 <script src="./app/assets/js/components/hs.popup.js"></script>
 <script src="./app/assets/js/components/hs.carousel.js"></script>
+
 <script src="./app/assets/js/components/hs.go-to.js"></script>
 
 <script>require('./renderer.js')</script>
+
 </html>

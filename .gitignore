@@ -2,7 +2,5 @@
 node_modules
 yarn-error.log
 yarn.lock
-.vscode
-%HOMEDRIVE%%HOMEPATH%/
 package-lock.json
 out/

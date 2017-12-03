@@ -8,7 +8,7 @@
  */
 ;(function ($) {
   'use strict'
-  require('malihu-custom-scrollbar-plugin')($);
+
   $.HSCore.components.HSScrollBar = {
 
     /**
@@ -28,11 +28,12 @@
      */
     _pageCollection: $(),
 
+
     /**
      * Initialization of HSScrollBar component.
      *
      * @param {jQuery} collection
-     * @param {Object} config
+     * @param {Object} config 
      *
      * @return {jQuery}
      */
@@ -49,7 +50,7 @@
         var $this = $(el),
           scrollBar,
           scrollBarThumb,
-          itemConfig = $.extend(true, {}, config, $this.data())
+          itemConfig = $.extend(true, {}, config, $this.data());
 
         $this.mCustomScrollbar(itemConfig)
 
@@ -66,15 +67,15 @@
 
         self._pageCollection = self._pageCollection.add($this)
 
-      })
+      });
 
     },
 
     /**
      * Destroys the component.
-     *
+     * 
      * @param {jQuery} collection
-     *
+     * 
      * @return {jQuery}
      */
     destroy: function (collection) {
@@ -97,4 +98,4 @@
 
   }
 
-})(jQuery)
+})(jQuery);

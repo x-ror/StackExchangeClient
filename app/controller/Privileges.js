@@ -1,10 +1,7 @@
 class Privileges {
-  constructor (user) {
-    this.reputation = user.reputation
-  }
-
-  myPrivileges () {
-    return this.reputation
+  constructor (reputation) {
+    this.reputation = reputation || 1
   }
 }
+
 module.exports = Privileges

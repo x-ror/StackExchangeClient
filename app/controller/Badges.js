@@ -1,25 +1,21 @@
 class Badges {
-  constructor (user) {
-    this.badges = user['badge_counts']
+  constructor (badges) {
+    this.badges = badges || {}
   }
 
   get gold () {
-    return this.badges.gold
+    return this.badges.gold || 0
   }
 
   get silver () {
-    return this.badges.silver
+    return this.badges.silver || 0
   }
 
   get bronze () {
-    return this.badges.bronze
+    return this.badges.bronze || 0
   }
 
-  MyBadges () {
-    return this.badges || null
-  }
-
-  spanMap () {
+  mapping () {
     let stack = []
     for (let key in this.badges)
       if (this.badges.hasOwnProperty(key))
@@ -27,4 +23,5 @@ class Badges {
     return stack.join('')
   }
 }
-module.exports = Badges;
+
+module.exports = Badges

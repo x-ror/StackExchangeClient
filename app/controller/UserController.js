@@ -24,7 +24,7 @@ exports.login = (sbc) => {
   }
 
   const loadAuthUrl = () => {
-    authWindow.loadURL('https://stackexchange.com/oauth/dialog?redirect_uri=https://stackexchange.com/oauth/login_success&client_id=10932&scope=write_access private_info read_inbox')
+    authWindow.loadURL('https://stackexchange.com/oauth/dialog?redirect_uri=https://stackexchange.com/oauth/login_success&client_id=10932&scope=write_access  private_info read_inbox')
   }
 
   authWindow.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {

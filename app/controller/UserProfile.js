@@ -18,8 +18,10 @@ class UserProfile {
    * @constructor
    * @description створює об'єкт класу UserProfile
    */
+
   constructor () {
-    this.profile = {}
+    this.id = uniqid()
+    this.Age = this.Link = this.Location = this.UserName = this.CreateAt = this.UserPicture = this.Badges = this.Privileges = null
   }
 
   /**
@@ -27,7 +29,7 @@ class UserProfile {
    * @return {Badges}
    */
   get MyBadges () {
-    return this.Badges.MyBadges()
+    return this.Badges.badges
   }
 
   /**
@@ -35,21 +37,30 @@ class UserProfile {
    * @return {Badges}
    */
   get MyPrivileges () {
-    return this.Privileges.myPrivileges()
+    return this.Privileges.reputation
   }
 
   /**
    * @description Асинхронний метод ініціалізації користувача
    */
   async render () {
-    this.id = uniqid()
-    this.profile = await getMe()
-    this.Badges = new Badges(this.profile)
-    this.Privileges = new Privileges(this.profile)
+    const fn = getMe.memoize()
+    let profile = await fn()
+
+    this.Age = profile['age']
+    this.Link = profile['link']
+    this.Location = profile['location']
+    this.UserName = profile['display_name']
+    this.CreateAt = profile['creation_date']
+    this.UserPicture = profile['profile_image']
+
+    this.Badges = new Badges(profile['badge_counts'])
+    this.Privileges = new Privileges(profile['reputation'])
   }
 }
 
 const getMe = async () => {
+  console.log('get me pls Aaaa  mmmm !')
   return await RequestServices.fetch('/me', {access_token: localStorage.token}).then(response => {
     return response.items[0]
   })

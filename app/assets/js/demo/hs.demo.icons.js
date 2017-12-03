@@ -10,7 +10,7 @@
 	'use strict';
 
   $('.u-icons-demo-item__value').each(function() {
-    const IconsValue = $(this).siblings('.u-icon-v1').children().attr('class');
+    var IconsValue = $(this).siblings('.u-icon-v1').children().attr('class')
     $(this).val(IconsValue);
   });
 
