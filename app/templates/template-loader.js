@@ -82,7 +82,7 @@ class Templates {
       direction: 'vertical',
       breakpoint: 991
     })
-
+    Observer.publish('script_loaded')
   }
 
 }

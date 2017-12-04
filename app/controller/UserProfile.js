@@ -17,11 +17,20 @@ class UserProfile {
   /**
    * @constructor
    * @description створює об'єкт класу UserProfile
+   * @param data {Object} - данні у вигляді об'єкта
+   * @return {UserProfile}
    */
 
-  constructor () {
+  constructor (data = {}) {
     this.id = uniqid()
-    this.Age = this.Link = this.Location = this.UserName = this.CreateAt = this.UserPicture = this.Badges = this.Privileges = null
+    this.Age = data['age'] || null
+    this.Link = data['link'] || null
+    this.Location = data['location'] || null
+    this.UserName = data['display_name'] || null
+    this.CreateAt = data['creation_date'] || null
+    this.UserPicture = data['profile_image'] || null
+    this.Badges = new Privileges(data['badges']) || null
+    this.Privileges = new Privileges(data['reputation']) || null
   }
 
   /**
@@ -43,6 +52,11 @@ class UserProfile {
   /**
    * @description Асинхронний метод ініціалізації користувача
    */
+
+  static initWithStaticData (profile) {
+
+  }
+
   async render () {
     const fn = getMe.memoize()
     let profile = await fn()
