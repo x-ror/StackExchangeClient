@@ -23,10 +23,10 @@ class Question {
     this.date = new Date.create(data['creation_date'] * 1000).relative('ru')
   }
 
-  static async getQuestions () {
+  static async getQuestions (page = 1) {
     const questions = []
 
-    await RequestBuilder.fetch('/questions', {pagesize: 20, order: 'desc', sort: 'activity'}).then(res => {
+    await RequestBuilder.fetch('/questions', {page: page, pagesize: 20, order: 'desc', sort: 'activity'}).then(res => {
       res.items.map(item => {
         questions.push(new Question(item))
       })
@@ -75,7 +75,7 @@ class Question {
       </div>
     </article>
   </div>`
-    document.querySelector('.body').insertAdjacentHTML('beforeend', showQuestion)
+    document.querySelector('.content').insertAdjacentHTML('beforeend', showQuestion)
   }
 
 // <div class="viewcount">${this.views}</div>
