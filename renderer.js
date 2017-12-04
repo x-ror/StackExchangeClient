@@ -7,6 +7,7 @@ const TemplatesLoader = require('./app/templates/template-loader')
 const RequestBuilder = require('./app/services/RequestBuilder')
 const UserProfile = require('./app/controller/UserProfile')
 const Question = require('./app/controller/Question')
+const Answers = require('./app/controller/Answers')
 const Observer = require('./app/observer/observer')
 const Sugar = require('sugar')()
 
@@ -19,6 +20,7 @@ ipc.on('sidebar:initialize', async () => {
 
   Observer.subscribe('script_loaded', {}, async (data) => {
     const questions = await Question.getQuestions()
+    window.location.href === 'file:///C:/' ? history.pushState([questions, userProfile], 'Home Page', window.location.href) : null
     questions.map(async question => {
       await question.render()
     })
@@ -32,30 +34,11 @@ ipc.on('stackexchange:login', (event, data) => {
 })
 
 $(() => {
-  $(document).on('click', '.question', function (e) {
-    var id = $(this).attr('data-id') // or var clickedBtnID = this.id
-    var tags = this.querySelector('.tags').innerText
-    var date = this.querySelector('.date').innerText
-    var votes = this.querySelector('.vote').innerText
-    var owner = this.querySelector('.author').innerText
-    var views = this.querySelector('.viewcount').innerText
-    var title = this.querySelector('.question__link').innerText
-    var answersCount = this.querySelector('.answers').innerText
+  $(document).on('click', `a[data-href^="/question"]`, async (e) => {
+    const id = e.target.getAttribute('data-id')
 
-    // alert(e.target.className);
-    if (e.target.className === 'question__link') {
-      console.log('click')
-      const question = new Question(id, title, views, tags, votes, answersCount, date, owner)
-      var currentquestion = await
-      question.getQuestionById()
-      const answers = await
-      Answer.getAnswers(currentquestion)
-      question.showQuestion()
-      if (answers)
-        for (var i = 0; i < answers.length; i++)
-          answers[i].showAnswer();
-
-    }
+    const question = await Question.getById(id)
+    await question.showQuestion()
   })
   $(document).on('click', '.add_post_link', async function (e) {
     const question = new Question(null, 'new post', 0, ['first', 'second', 'third'], 0, 0, null, null)
