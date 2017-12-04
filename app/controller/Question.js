@@ -2,12 +2,13 @@ const Tags = require('./Tags')
 const Votes = require('./Votes')
 const uniqid = require('uniqid')
 const Answers = require('./Answers')
+const ICRUD = require('./ICRUD')
 const Owner = require('./UserProfile')
 const RequestBuilder = require('../services/RequestBuilder')
 
-class Question {
+class Question extends ICRUD {
   constructor (data = {}) {
-
+    super()
     this.id = data['question_id']
     this.tags = new Tags(data)
 
@@ -32,6 +33,41 @@ class Question {
       })
     })
     return questions
+  }
+
+  async Create () {
+    await $.post(`https://api.stackexchange.com/2.2/questions/add`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: {
+        access_token: localStorage.token,
+        title: this.title,
+        body: this.body,
+        tags: this.tags
+      }
+    }).then(response => {
+      return true
+    })
+  }
+
+  async Delete () {
+    await RequestBuilder.fetch(`/questions/${this.id}/delete`, {id: this.id}).then(response => {
+      return true
+    })
+  }
+
+  async Edit (Question) {
+    await RequestBuilder.fetch(`/questions/${this.id}/edit`, {
+      id: this.id,
+      title: Question.title,
+      body: Question.body,
+      tags: Question.tags
+    }).then(response => {
+      return true
+    })
   }
 
   async getQuestionById () {
@@ -78,12 +114,6 @@ class Question {
     document.querySelector('.content').insertAdjacentHTML('beforeend', showQuestion)
   }
 
-// <div class="viewcount">${this.views}</div>
-//   <div class="vote">${this.votes}</div>
-//   <div class="answers">${this.answers}</div>
-//   <div class="date">${this.date}</div>
-//   <div class="author">${this.owner.display_name}</div>
-// </div>
   showQuestion () {
     var showQuestion = `<div class="question" data-id="${this.id}">
           <div class="title">
@@ -112,6 +142,7 @@ class Question {
     document.querySelector('.container').innerHTML = ''
     document.querySelector('.container').insertAdjacentHTML('beforeend', showQuestion)
   }
+
 }
 
 module.exports = Question
