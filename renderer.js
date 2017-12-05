@@ -10,10 +10,14 @@ const Question = require('./app/controller/Question')
 const Answers = require('./app/controller/Answers')
 const Observer = require('./app/observer/observer')
 const Sugar = require('sugar')()
-
+const user = require('./app/controller/UserController')
 const win = remote.getCurrentWindow()
 
 Observer.subscribe('script_loaded', {}, async (data) => {
+  document.querySelector('a[data-href="/logout"').addEventListener('click', async (e) => {
+    user.logout({access_token: localStorage.token})
+  })
+
   document.querySelector('a[data-href="/home"').addEventListener('click', async (e) => {
     const link_content = document.querySelector('.content')
     while (link_content.firstChild) {
