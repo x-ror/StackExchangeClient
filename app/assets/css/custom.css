@@ -10,3 +10,12 @@
 .badge-bronze {
     color: #d1a684;
 }
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+pre {
+    background-color: #eff0f1;
+}

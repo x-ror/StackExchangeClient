@@ -13,12 +13,29 @@ const Sugar = require('sugar')()
 
 const win = remote.getCurrentWindow()
 
+Observer.subscribe('script_loaded', {}, async (data) => {
+  document.querySelector('a[data-href="/home"').addEventListener('click', async (e) => {
+    const link_content = document.querySelector('.content')
+    while (link_content.firstChild) {
+      link_content.removeChild(link_content.firstChild)
+    }
+    const questions = await Question.getQuestions()
+    questions.map(async question => {
+      await question.render()
+    })
+  })
+})
+
 ipc.on('sidebar:initialize', async () => {
   const userProfile = new UserProfile()
   await userProfile.render()
   await TemplatesLoader.loadHeader(userProfile)
 
   Observer.subscribe('script_loaded', {}, async (data) => {
+    const link_content = document.querySelector('.content')
+    while (link_content.firstChild) {
+      link_content.removeChild(link_content.firstChild)
+    }
     const questions = await Question.getQuestions()
     window.location.href === 'file:///C:/' ? history.pushState([questions, userProfile], 'Home Page', window.location.href) : null
     questions.map(async question => {
@@ -36,7 +53,6 @@ ipc.on('stackexchange:login', (event, data) => {
 $(() => {
   $(document).on('click', `a[data-href^="/question"]`, async (e) => {
     const id = e.target.getAttribute('data-id')
-
     const question = await Question.getById(id)
     await question.showQuestion()
   })

@@ -29,7 +29,8 @@ class UserProfile {
     this.UserName = data['display_name'] || null
     this.CreateAt = data['creation_date'] || null
     this.UserPicture = data['profile_image'] || null
-    this.Badges = new Privileges(data['badges']) || null
+
+    this.Badges = new Badges(data['badge_counts']) || null
     this.Privileges = new Privileges(data['reputation']) || null
   }
 
