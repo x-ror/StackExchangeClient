@@ -9,7 +9,7 @@ class RequestBuilder {
    * @param {Object} parameters - додаткові параметри, особливі для різних запитів
    * @returns {string} - данні у вигляді рядка з параметрами
    */
-  static buildUrl (url, parameters) {
+  static buildUrl (url, parameters = {}) {
     /** stackexchange api url */
     url = `https://api.stackexchange.com/2.2${url}`
     const qString = parameters && Object.keys(parameters).map((key) => {

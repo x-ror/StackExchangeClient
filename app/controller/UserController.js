@@ -54,9 +54,9 @@ exports.login = (sbc) => {
   loadAuthUrl()
 }
 exports.logout = (params) => {
-  let RequestServices = remote.getGlobal('RequestBuilder')
+  let RequestBuilder = remote.getGlobal('RequestBuilder')
   const win = remote.getCurrentWindow()
-  const logoutPromise = fetch(RequestServices.buildUrl(`/apps/${params['access_token']}/de-authenticate`))
+  const logoutPromise = fetch(RequestBuilder.buildUrl(`/apps/${params['access_token']}/de-authenticate`))
   logoutPromise.then(() => {
     const session = win.webContents.session
     session.cookies.remove('https://stackexchange.com', 'acct', () => {})

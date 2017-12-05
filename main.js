@@ -6,7 +6,7 @@ let current_user = {}
 /**
  * @requires RequestBuilder;
  * */
-const RequestServices = require('./app/services/RequestBuilder')
+global.RequestBuilder = require('./app/services/RequestBuilder')
 
 const path = require('path')
 const url = require('url')
