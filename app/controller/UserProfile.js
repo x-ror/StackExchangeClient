@@ -60,14 +60,14 @@ class UserProfile {
 
   async render () {
     const fn = getMe.memoize()
-    let profile = await fn()
+    let profile = await fn() || {}
 
-    this.Age = profile['age'] || null
-    this.Link = profile['link'] || null
-    this.Location = profile['location'] || null
-    this.UserName = profile['display_name'] || null
-    this.CreateAt = profile['creation_date'] || null
-    this.UserPicture = profile['profile_image'] || null
+    this.Age = profile['age'] || 'Name'
+    this.Link = profile['link'] || 'Name'
+    this.Location = profile['location'] || 'Name'
+    this.UserName = profile['display_name'] || 'Name'
+    this.CreateAt = profile['creation_date'] || 'Name'
+    this.UserPicture = profile['profile_image'] || 'Name'
 
     this.Badges = new Badges(profile['badge_counts'])
     this.Privileges = new Privileges(profile['reputation'])
