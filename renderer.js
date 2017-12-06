@@ -1,32 +1,55 @@
 'use strict'
-const electron = require('electron')
-const remote = electron.remote
-const ipc = electron.ipcRenderer
+const {electron, shell, remote, ipcRenderer} = require('electron')
+const ipc = ipcRenderer
 
 const TemplatesLoader = require('./app/templates/template-loader')
+const UserController = require('./app/controller/UserController')
 const RequestBuilder = require('./app/services/RequestBuilder')
 const UserProfile = require('./app/controller/UserProfile')
 const Question = require('./app/controller/Question')
 const Answers = require('./app/controller/Answers')
 const Observer = require('./app/observer/observer')
 const Sugar = require('sugar')()
-const user = require('./app/controller/UserController')
 const win = remote.getCurrentWindow()
-
+let clearMainContent = () => {
+  const link_content = document.querySelector('.content')
+  while (link_content.firstChild) {
+    link_content.removeChild(link_content.firstChild)
+  }
+  return link_content
+}
 Observer.subscribe('script_loaded', {}, async (data) => {
-  document.querySelector('a[data-href="/logout"').addEventListener('click', async (e) => {
-    user.logout({access_token: localStorage.token})
-  })
-
-  document.querySelector('a[data-href="/home"').addEventListener('click', async (e) => {
-    const link_content = document.querySelector('.content')
-    while (link_content.firstChild) {
-      link_content.removeChild(link_content.firstChild)
+  document.addEventListener('click', async function (e) {
+    if (e.target.tagName === 'A' && e.target.hasAttribute('data-href')) {
+      let link_content, questions = null
+      switch (e.target.getAttribute('data-href')) {
+        case '/logout':
+          UserController.logout({access_token: localStorage.token})
+          break
+        case '/favorites':
+          link_content = clearMainContent()
+          questions = await Question.myFavorites()
+          Question.eachRender(questions)
+          link_content.insertAdjacentHTML('afterbegin', `<div class="u-heading-v1-1 g-bg-gray-light-v5 g-brd-primary g-mb-20 text-center g-font-weight-300"><h2 class="h3 u-heading-v1__title">My Favorites Questions</h2></div>`)
+          break
+        case '/myQuestions':
+          link_content = clearMainContent()
+          questions = await Question.myQuestions()
+          Question.eachRender(questions)
+          link_content.insertAdjacentHTML('afterbegin', `<div class="u-heading-v1-1 g-bg-gray-light-v5 g-brd-primary g-mb-20 text-center g-font-weight-300"><h2 class="h3 u-heading-v1__title">My Questions</h2></div>`)
+          break
+        case '/home':
+          clearMainContent()
+          questions = await Question.getQuestions()
+          Question.eachRender(questions)
+          break
+        case '/question':
+          const id = e.target.getAttribute('data-id')
+          const question = await Question.getById(id)
+          await question.showQuestion()
+          break
+      }
     }
-    const questions = await Question.getQuestions()
-    questions.map(async question => {
-      await question.render()
-    })
   })
 })
 
@@ -36,12 +59,8 @@ ipc.on('sidebar:initialize', async () => {
   await TemplatesLoader.loadHeader(userProfile)
 
   Observer.subscribe('script_loaded', {}, async (data) => {
-    const link_content = document.querySelector('.content')
-    while (link_content.firstChild) {
-      link_content.removeChild(link_content.firstChild)
-    }
+    clearMainContent()
     const questions = await Question.getQuestions()
-    window.location.href === 'file:///C:/' ? history.pushState([questions, userProfile], 'Home Page', window.location.href) : null
     questions.map(async question => {
       await question.render()
     })
@@ -55,11 +74,6 @@ ipc.on('stackexchange:login', (event, data) => {
 })
 
 $(() => {
-  $(document).on('click', `a[data-href^="/question"]`, async (e) => {
-    const id = e.target.getAttribute('data-id')
-    const question = await Question.getById(id)
-    await question.showQuestion()
-  })
   $(document).on('click', '.add_post_link', async function (e) {
     const question = new Question(null, 'new post', 0, ['first', 'second', 'third'], 0, 0, null, null)
     question.body = 'text text text text text'

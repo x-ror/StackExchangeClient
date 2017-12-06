@@ -45,6 +45,42 @@ class Question extends ICRUD {
     return questions
   }
 
+  static async myQuestions () {
+    let _res = [];
+    await RequestBuilder.fetch(`/me/questions`, {
+      access_token: localStorage.token,
+      sort: 'activity',
+      order: 'desc',
+      pagesize: 20
+    }).then(questions => {
+      questions.items.map(item => {
+        _res.push(new Question(item))
+      })
+    })
+    return _res
+  }
+
+  static async myFavorites () {
+    let _res = []
+    await RequestBuilder.fetch(`/me/favorites`, {
+      access_token: localStorage.token,
+      sort: 'activity',
+      order: 'desc',
+      pagesize: 20
+    }).then(questions => {
+      questions.items.map(item => {
+        _res.push(new Question(item))
+      })
+    })
+    return _res
+  }
+
+  static eachRender (questions) {
+    questions.map(question => {
+      question.render()
+    })
+  }
+
   async Create () {
     await $.post(`https://api.stackexchange.com/2.2/questions/add`, {
       method: 'POST',
@@ -82,18 +118,24 @@ class Question extends ICRUD {
 
   render () {
     const showQuestion = `
-  <div class="row ">
-    <div class="col-lg-12 g-mb-30">
-      <article class="g-brd-around g-brd-gray-light-v4 rounded">
-        <div class="g-pa-30">
-          <h3 class="g-font-weight-300 g-mb-15">
-            <a class="u-link-v5 g-color-main g-color-primary--hover question question__link" data-href="/question" data-id="${this.id}" rel="nofollow">
+  <div class="row g-mb-10">
+    <div class="col-lg-12">
+      <article class="g-brd-around g-brd-gray-light-v4 g-bg-white  rounded-0 ">
+        <div class="g-pa-10">
+          <h3 class="g-font-weight-300 g-ma-0 ">
+            <a class="u-link-v5 g-color-main g-color-primary--hover g-cursor-pointer question question__link" data-href="/question" data-id="${this.id}" rel="nofollow">
             ${this.Title.trim()}
             </a>
           </h3>
-          <p>tag</p>
         </div>
-    
+        <hr class="g-brd-gray-light-v4">
+        <div class="row g-pa-10 g-pt-0">
+					<div class="col-md-12">
+						<div class="tags">
+						${this.Tags.maping}
+            </div>
+					</div>
+				</div>
         <div class="media g-font-size-12 g-brd-top g-brd-gray-light-v4 g-pa-15-30">
           <img class="d-flex g-width-20 g-height-20 rounded-circle g-mr-10" src="${this.Owner.UserPicture}" alt="${this.Owner.UserName}">
           <div class="media-body align-self-center">
@@ -118,18 +160,8 @@ class Question extends ICRUD {
   }
 
   async showQuestion () {
-    console.log(this)
     await TemplateLoader.renderQuestion(this)
-    // const content = document.querySelector('.content')
-    //
-    // while (content.firstChild) {
-    //   content.removeChild(content.firstChild)
-    // }
-    // content.insertAdjacentHTML('afterbegin', `
-    //   .question
-    // `)
   }
-
 }
 
 module.exports = Question

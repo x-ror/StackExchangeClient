@@ -54,10 +54,6 @@ class UserProfile {
    * @description Асинхронний метод ініціалізації користувача
    */
 
-  static initWithStaticData (profile) {
-
-  }
-
   async render () {
     const fn = getMe.memoize()
     let profile = await fn() || {}
@@ -76,7 +72,7 @@ class UserProfile {
 
 const getMe = async () => {
   console.log('get me pls Aaaa  mmmm !')
-  return await RequestServices.fetch('/me', {access_token: localStorage.token}).then(response => {
+  return await RequestServices.fetch('/me', {access_token: localStorage.token,filter: "vqc7L"}).then(response => {
     return response.items[0]
   })
 }
