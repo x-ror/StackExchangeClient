@@ -194,7 +194,7 @@ class TemplatesLoader {
       el = content = null
 
       document.querySelector('[data-question="title"]').innerHTML = question.Title
-
+      document.querySelector('[data-question="title"]').setAttribute('data-clip', question.link)
       document.querySelector('[data-sidebar="asked"]').innerHTML = question.date
       document.querySelector('[data-sidebar="viewed"]').innerHTML = (question.Views).metric()
       document.querySelector('[data-sidebar="active"]').innerHTML = question.updated
@@ -214,7 +214,25 @@ class TemplatesLoader {
       $('pre code:not(.prettyprint)', document).each(function () {
         $(this).addClass('prettyprint').parent().wrap('<p></p>')
       })
+
+      $('p img', document).each((e, item) => {
+        const img = item
+        img.className += 'img-fluid u-block-hover__main--zoom-v1'
+        let a = $(img).parent()
+        a.wrap('<div class="u-block-hover" ></div>')
+
+        a.href = img.src
+        a.attr('data-fancybox-gallery', 'lightbox-gallery--02')
+        a.addClass('js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_3--after')
+
+        a.append(`
+          <span class="u-block-hover__additional--fade g-bg-black-opacity-0_3 g-color-white">
+             <i class="hs-icon hs-icon-magnifier g-absolute-centered g-font-size-25"></i>
+          </span>`)
+      })
+
       prettyPrint()
+      $.HSCore.components.HSPopup.init('.js-fancybox')
       Observer.unsubscribe('load_question', question)
     })
   }
