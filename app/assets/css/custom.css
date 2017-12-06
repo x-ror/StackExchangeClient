@@ -20,3 +20,7 @@ pre {
     background-color: #eff0f1;
     padding: 5px;
 }
+
+code:not(.prettyprint) {
+    word-wrap: break-word;
+}
