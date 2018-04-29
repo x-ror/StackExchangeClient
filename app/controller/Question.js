@@ -1,11 +1,11 @@
 const Tags = require('./Tags')
 const Votes = require('./Votes')
-const uniqid = require('uniqid')
 const Answers = require('./Answers')
 const ICRUD = require('./ICRUD')
 const Owner = require('./UserProfile')
 const RequestBuilder = require('../services/RequestBuilder')
 const TemplateLoader = require('../templates/template-loader')
+let has_more = false
 
 class Question extends ICRUD {
   constructor (data = {}) {
@@ -34,33 +34,35 @@ class Question extends ICRUD {
     })
   }
 
-  static async getQuestions (page = 1) {
+  static async getQuestions ({page}) {
     const questions = []
 
     await RequestBuilder.fetch('/questions', {page: page, pagesize: 20, order: 'desc', sort: 'activity'}).then(res => {
+      has_more = res['has_more']
       res.items.map(item => {
         questions.push(new Question(item))
       })
     })
-    return questions
+    return {questions, has_more}
   }
 
-  static async myQuestions () {
-    let _res = [];
+  static async myQuestions ({page}) {
+    let questions = []
     await RequestBuilder.fetch(`/me/questions`, {
       access_token: localStorage.token,
       sort: 'activity',
       order: 'desc',
       pagesize: 20
-    }).then(questions => {
-      questions.items.map(item => {
-        _res.push(new Question(item))
+    }).then(__res => {
+      has_more = __res['has_more']
+      __res.items.map(item => {
+        questions.push(new Question(item))
       })
     })
-    return _res
+    return {questions, has_more}
   }
 
-  static async myFavorites () {
+  static async myFavorites ({page}) {
     let _res = []
     await RequestBuilder.fetch(`/me/favorites`, {
       access_token: localStorage.token,
@@ -68,11 +70,12 @@ class Question extends ICRUD {
       order: 'desc',
       pagesize: 20
     }).then(questions => {
+      has_more = questions['has_more']
       questions.items.map(item => {
         _res.push(new Question(item))
       })
     })
-    return _res
+    return {_res, has_more}
   }
 
   static eachRender (questions) {

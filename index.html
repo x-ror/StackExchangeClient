@@ -1,79 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet"
-	      href="https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C300%2C500%2C600%2C700%7CPlayfair+Display%7CRoboto%7CRaleway%7CSpectral%7CRubik">
-	<!-- CSS Global Compulsory -->
-	<link rel="stylesheet" href="./app/assets/vendor/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="./app/assets/vendor/bootstrap/offcanvas.css">
-	<!-- CSS Global Icons -->
-	<link rel="stylesheet" href="./app/assets/vendor/icon-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="./app/assets/vendor/icon-line/css/simple-line-icons.css">
-	<link rel="stylesheet" href="./app/assets/vendor/icon-hs/style.css">
-	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsparallaxer.css">
-	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
-	<link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
-	<link rel="stylesheet" href="./app/assets/vendor/animate.css">
-	<link rel="stylesheet" href="./app/assets/vendor/hamburgers/hamburgers.min.css">
-	<link rel="stylesheet" href="./app/assets/vendor/hs-megamenu/src/hs.megamenu.css">
-	<link rel="stylesheet" href="./app/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="./app/assets/vendor/slick-carousel/slick/slick.css">
-	<link rel="stylesheet" href="./app/assets/vendor/fancybox/jquery.fancybox.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C300%2C500%2C600%2C700%7CPlayfair+Display%7CRoboto%7CRaleway%7CSpectral%7CRubik">
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="./app/assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./app/assets/vendor/bootstrap/offcanvas.css">
+    <!-- CSS Global Icons -->
+    <link rel="stylesheet" href="./app/assets/vendor/icon-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./app/assets/vendor/icon-line/css/simple-line-icons.css">
+    <link rel="stylesheet" href="./app/assets/vendor/icon-hs/style.css">
+    <link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsparallaxer.css">
+    <link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+    <link rel="stylesheet" href="./app/assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+    <link rel="stylesheet" href="./app/assets/vendor/animate.css">
+    <link rel="stylesheet" href="./app/assets/vendor/hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" href="./app/assets/vendor/hs-megamenu/src/hs.megamenu.css">
+    <link rel="stylesheet" href="./app/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="./app/assets/vendor/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="./app/assets/vendor/fancybox/jquery.fancybox.css">
 
-	<!-- CSS Unify -->
-	<link rel="stylesheet" href="./app/assets/css/unify-core.css">
-	<link rel="stylesheet" href="./app/assets/css/unify-components.css">
-	<link rel="stylesheet" href="./app/assets/css/unify-globals.css">
-	<link rel="stylesheet" href="./app/assets/css/custom.css">
-	<link rel="stylesheet" href="./app/assets/js/google-code-prettify/prettify.css"/>
+    <!-- CSS Unify -->
+    <link rel="stylesheet" href="./app/assets/css/unify-core.css">
+    <link rel="stylesheet" href="./app/assets/css/unify-components.css">
+    <link rel="stylesheet" href="./app/assets/css/unify-globals.css">
+    <link rel="stylesheet" href="./app/assets/css/custom.css">
+    <link rel="stylesheet" href="./app/assets/js/google-code-prettify/prettify.css"/>
 
-	<title>StackOverflow</title>
+    <title>StackOverflow</title>
 </head>
 <body class="u-body--header-side-static-left g-bg-gray-light-v5">
 <section class="body g-px-10 g-py-0">
-	<div class="content g-py-10"></div>
-	<div class="fixed-bottom g-bg-">
-		<!--<nav class="text-center w-100" aria-label="Page Navigation">-->
-		<!--<ul class="list-inline">-->
-		<!--<li class="list-inline-item float-sm-left">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 u-pagination-v1-2&#45;&#45;nav g-pa-12-21" href="#"-->
-		<!--aria-label="Previous">-->
-		<!--<span aria-hidden="true">-->
-		<!--<i class="fa fa-angle-left g-mr-5"></i>-->
-		<!--Previous-->
-		<!--</span>-->
-		<!--<span class="sr-only">Previous</span>-->
-		<!--</a>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item g-hidden-sm-down">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 u-pagination-v1__item&#45;&#45;disabled g-pa-12-19" href="#">1</a>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item g-hidden-sm-down">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 u-pagination-v1-2&#45;&#45;active g-pa-12-19" href="#">2</a>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item g-hidden-sm-down">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 g-pa-12-19" href="#">3</a>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item g-hidden-sm-down">-->
-		<!--<span class="g-pa-12-19">...</span>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item g-hidden-sm-down">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 g-pa-12-19" href="#">15</a>-->
-		<!--</li>-->
-		<!--<li class="list-inline-item float-sm-right">-->
-		<!--<a class="u-pagination-v1__item u-pagination-v1-2 u-pagination-v1-2&#45;&#45;nav g-pa-12-21" href="#"-->
-		<!--aria-label="Next">-->
-		<!--<span aria-hidden="true">-->
-		<!--Next-->
-		<!--<i class="fa fa-angle-right g-ml-5"></i>-->
-		<!--</span>-->
-		<!--<span class="sr-only">Next</span>-->
-		<!--</a>-->
-		<!--</li>-->
-		<!--</ul>-->
-		<!--</nav>-->
-	</div>
+    <div class="content g-py-10"></div>
+    <div class="next-page-nav row g-mb-10">
+        <div class="col-lg-12">
+            <nav class="text-center nav_list" aria-label="Page Navigation">
+
+            </nav>
+        </div>
+    </div>
 </section>
 </body>
 

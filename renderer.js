@@ -10,6 +10,8 @@ const Question = require('./app/controller/Question')
 const Observer = require('./app/observer/observer')
 const Search = require('./app/controller/Search')
 require('sugar')()
+let page = 1
+let tag = ''
 const win = remote.getCurrentWindow()
 let clearMainContent = () => {
   const link_content = document.querySelector('.content')
@@ -18,7 +20,6 @@ let clearMainContent = () => {
   }
   return link_content
 }
-
 let showAlert = function (copy_messages) {
   document.querySelector('.content').insertAdjacentHTML('afterbegin', `
   <div class="col-lg-12">
@@ -41,52 +42,90 @@ let showAlert = function (copy_messages) {
     $(alert).remove()
   })
 }
+let findMatch = (link) => {
+  let m, tag = '', regExpForStackTags = /(tag\?)([\w\W]+)/g
+  if ((m = regExpForStackTags.exec(link)) !== null) {
+    link = '/tag'
+    m.forEach((match, groupIndex) => {
+      console.log(`Found match, group ${groupIndex}: ${match}`)
+      if (groupIndex === 2)
+        tag = match
+    })
+  }
+  return {link, tag}
+}
+let renderPagination = ({page_type = 'home', page, isNext}) => {
+  const navContent = document.querySelector('.nav_list')
+
+  while (navContent.firstChild) {
+    navContent.removeChild(navContent.firstChild)
+  }
+
+  navContent.insertAdjacentHTML('afterbegin',
+    `<ul class="list-inline">
+      <li class="list-inline-item">
+          <a class="u-pagination-v1__item u-pagination-v1-2 g-pa-7-16 ${page ===
+    1 ? 'u-pagination-v1__item--disabled' : null}" 
+          data-href='${page_type}' data-page=${--page} aria-label="Previous">Previous
+          </a>
+      </li>
+      <li class="list-inline-item g-hidden-sm-down ">
+          <div class="u-pagination-v1__item u-pagination-v1-2 u-pagination-v1-2--active g-pa-7-14 current_page">
+              ${++page}
+          </div>
+      </li>
+
+      <li class="list-inline-item">
+          <a class="u-pagination-v1__item u-pagination-v1-2 g-pa-7-16 ${!isNext
+      ? 'u-pagination-v1__item--disabled'
+      : null}" 
+          data-href='${page_type}' data-page=${++page} aria-label="Next">Next
+          </a>
+      </li>
+    </ul>`)
+}
+
 Observer.subscribe('script_loaded', {}, async () => {
   document.addEventListener('click', async function (e) {
     // e.preventDefault()
     if (e.target.tagName === 'A' && e.target.hasAttribute('data-href')) {
-      let link = e.target.getAttribute('data-href')
-      let link_content, questions = null
-      const regExpForStackTags = /(tag\?)([\w\W]+)/g
-      let tag = ''
-      let m
-      if ((m = regExpForStackTags.exec(link)) !== null) {
-        link = '/tag'
-        m.forEach((match, groupIndex) => {
-          console.log(`Found match, group ${groupIndex}: ${match}`)
-          if (groupIndex === 2)
-            tag = match
-        })
+      let link = e.target.getAttribute('data-href'), link_content, _res
+      page = e.target.getAttribute('data-page') || 1
+      const __ref = findMatch(link)
+      if (__ref) {
+        link = __ref['link']
+        tag = __ref['tag'] || tag
       }
+
       switch (link) {
         default:
-          console.log(regExpForStackTags)
+          console.log(__ref)
           break
         case '/logout':
           UserController.logout({access_token: localStorage.token})
           break
         case '/favorites':
           link_content = clearMainContent()
-          questions = await Question.myFavorites()
-          Question.eachRender(questions)
+          _res = await Question.myFavorites({page: page})
+          Question.eachRender(_res['questions'])
           link_content.insertAdjacentHTML('afterbegin', `<div class="u-heading-v1-1 g-bg-gray-light-v5 g-brd-primary g-mb-20 text-center g-font-weight-300"><h2 class="h3 u-heading-v1__title">My Favorites Questions</h2></div>`)
           break
         case '/myQuestions':
           link_content = clearMainContent()
-          questions = await Question.myQuestions()
-          Question.eachRender(questions)
+          _res = await Question.myQuestions({page: page})
+          Question.eachRender(_res['questions'])
           link_content.insertAdjacentHTML('afterbegin', `<div class="u-heading-v1-1 g-bg-gray-light-v5 g-brd-primary g-mb-20 text-center g-font-weight-300"><h2 class="h3 u-heading-v1__title">My Questions</h2></div>`)
           break
         case '/tag':
           link_content = clearMainContent()
-          questions = await Search.findByTagName(tag)
-          Question.eachRender(questions)
+          _res = await Search.findByTagName({tag, page: page})
+          Question.eachRender(_res['questions'])
           link_content.insertAdjacentHTML('afterbegin', `<div class="u-heading-v1-1 g-bg-gray-light-v5 g-brd-primary g-mb-20 text-center g-font-weight-300"><h2 class="h3 u-heading-v1__title">Search by <code>${tag}</code></h2></div>`)
           break
         case '/home':
           clearMainContent()
-          questions = await Question.getQuestions()
-          Question.eachRender(questions)
+          _res = await Question.getQuestions({page: page})
+          Question.eachRender(_res['questions'])
           break
         case '/question':
           const id = e.target.getAttribute('data-id')
@@ -94,6 +133,9 @@ Observer.subscribe('script_loaded', {}, async () => {
           await question.showQuestion()
           break
       }
+      if (['/favorites', '/myQuestions', '/tag', '/home'].includes(link))
+        renderPagination(
+          {page_type: link, isNext: _res['has_more'], page: page})
     }
     if (e.target.hasAttribute('data-clip')) {
       let copy = e.target.getAttribute('data-clip')
@@ -110,10 +152,9 @@ ipc.on('sidebar:initialize', async () => {
 
   Observer.subscribe('script_loaded', {}, async () => {
     clearMainContent()
-    const questions = await Question.getQuestions()
-    questions.map(async question => {
-      await question.render()
-    })
+    const {questions, has_more} = await Question.getQuestions({page: 1})
+    questions.map(question => question.render())
+    renderPagination({page_type: '/home', isNext: has_more, page: page})
   })
 })
 
@@ -121,22 +162,4 @@ ipc.on('stackexchange:login', (event, data) => {
   localStorage.token = data.token
   Object.freeze(localStorage.token)
   win.webContents.send('sidebar:initialize')
-})
-
-$(() => {
-  $(document).on('click', '.add_post_link', async function () {
-    const question = new Question(null, 'new post', 0, ['first', 'second', 'third'], 0, 0, null, null)
-    question.body = 'text text text text text'
-    //question.Create();
-    $.post(`https://api.stackexchange.com/2.2/questions/add`, {
-      'access_token': localStorage.token,
-      'title': this.title,
-      'body': this.body,
-      'tags': this.tags
-    }, function (serverResponse) {
-
-      //do what you want with server response
-
-    })
-  })
 })
